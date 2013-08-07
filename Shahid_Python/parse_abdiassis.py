@@ -1,4 +1,5 @@
 import csv
+import matplotlib.pyplot as plt
 
 MEN_PER_SAFF = 15
 
@@ -58,9 +59,9 @@ def get_num_days_gte(value, prayer_period, data):
       count += 1
   return count
 
-def get_list_of_prayer_period_counts(prayer_period, data):
+def get_list_of_prayer_period_counts(prayer_period, data, limit):
   counts = []
-  for i in range(len(data)):
+  for i in range(limit):
     num = data[i][prayer_period]
     counts.append(num)
   return counts
@@ -95,6 +96,16 @@ def time_elapsed(start, end):
   end_minutes   = int(end_frames[0])   * 60 + int(end_frames[1])
   return end_minutes - start_minutes
 
+def plot_two_prayer_periods(period_1, period_2, data, limit):
+  x_vals = []
+  for i in range(limit):
+    x_vals.append(i)
+  y_vals_1 = get_list_of_prayer_period_counts(period_1, data, limit)
+  y_vals_2 = get_list_of_prayer_period_counts(period_2, data, limit)
+  plt.plot(x_vals, y_vals_1, 'g^',
+           x_vals, y_vals_2, 'bs')
+  plt.show()
+
 def examples():
   """Examples of function calls."""
   data = read_file('Taraweeh Tracker - Abdasis.csv')
@@ -105,4 +116,5 @@ def examples():
   print get_list_of_prayer_period_count_deltas('before_isha', data)
 
 data = read_file('Taraweeh Tracker - Abdasis.csv')
-print get_num_days_gte(225, 'after_8', data)
+# plot_two_prayer_periods('after_8', 'before_9', data)
+plot_two_prayer_periods('before_isha', 'after_20', data, 15)
