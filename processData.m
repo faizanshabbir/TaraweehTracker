@@ -17,14 +17,6 @@ Rakahs = cat(2,Rakahs{:});
 Times = dataMat(1,xEven);
 Times = cat(2,Times{:});
 
-%Interpolatation by surface leads to more NaN values.
-[rowF colF] = find(Rakahs<1);
-idxToFill = [rowF colF];
-[rowF colF] = find(Rakahs>1);
-idxFilled = [rowF colF];
-Z = Rakahs(idxFilled(:,1),idxFilled(:,2));
-Rakas(idxToFill)=interp2(idxFilled(:,1),idxFilled(:,2),Z,);
-
 %Interpolate by columns
 for i = 1:size(Rakahs,2)
     idxToFill = find(Rakahs(:,i)<1);
