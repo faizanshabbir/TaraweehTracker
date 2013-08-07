@@ -1,6 +1,7 @@
 %constants
 numDays = 30;
-hallMax = 1000; %Random number for now.  Fix later.
+hallMax = 414;  %1st = 28, 2nd = 36, 3rd-10th = 50
+                %Safs outside of hall 10th-20th = 30
 
 %Open file
 fileID = fopen('data\Taraweeh Tracker - Abdasis.csv');
@@ -28,7 +29,7 @@ for i = 1:size(Rakahs,2)
     idxFilled = find(Rakahs(:,i)>1);
     [xFilled colF] = find(Rakahs(:,i)>1);  
     y = Rakahs(idxFilled);
-    Rakahs(idxToFill) = interp1(xFilled,y,xToFill);
+    Rakahs(idxToFill,i) = interp1(xFilled,y,xToFill);
 end
 
 cutoff = floor(Rakahs);
