@@ -1,5 +1,6 @@
 %constants
 numDays = 30;
+hallMax = 1000; %Random number for now.  Fix later.
 
 %Open file
 fileID = fopen('data\Taraweeh Tracker - Abdasis.csv');
@@ -17,7 +18,10 @@ Rakahs = cat(2,Rakahs{:});
 Times = dataMat(1,xEven);
 Times = cat(2,Times{:});
 
+origRakahs = Rakahs;
+
 %Interpolate by columns
+%Only works for first column.  Fix.  Separate columns and then join?
 for i = 1:size(Rakahs,2)
     idxToFill = find(Rakahs(:,i)<1);
     [xToFill colF] = find(Rakahs(:,i)<1);
@@ -30,7 +34,25 @@ end
 cutoff = floor(Rakahs);
 Safs = Rakahs - cutoff;
 
+upperIdx = find(Rakahs>10);
+lowerIdx = find(Rakahs<10);
+others = find(ismember(Rakahs,10));
 
+upper = Rakahs(upperIdx);
+lower = Rakahs(lowerIdx);
+
+upMod = mod(upper,10);
+loMod = mod(lower,10);
+
+loMod = loMod - 2;
+
+numPeopleLo = loMod*50+64;
+numPeopleUp = upMod*30+hallMax;
+
+finCountPeople = zeros(size(Rakahs));
+finCountPeople(upperIdx) = numPeopleUp;
+finCountPeople(lowerIdx) = numPeopleLo;
+finCountPeople(others) = hallMax;
 
 % idx = find(Safs>2 & Safs<11);
 % midSafs = ismember(Safs,idx);
